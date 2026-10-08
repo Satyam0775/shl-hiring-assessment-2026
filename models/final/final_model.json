@@ -1,0 +1,8 @@
+{
+  "experiment_id": "EXP-07",
+  "model": "ensemble_top3",
+  "feature_set": "mixed",
+  "cv_rmse_mean": 0.6876316658683919,
+  "cv_pearson_mean": 0.833847149488923,
+  "training_rmse": 0.14752040998481245
+}

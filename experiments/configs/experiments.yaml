@@ -1,0 +1,39 @@
+# Controlled experiment ladder. Feature groups: audio | text | embeddings
+# Each (experiment, model) pair is cross-validated on IDENTICAL folds.
+experiments:
+  - id: EXP-00
+    feature_set: []
+    models: [mean_baseline]
+    notes: "Predict the training-fold mean for every sample."
+  - id: EXP-01
+    feature_set: []
+    models: [median_baseline]
+    notes: "Predict the training-fold median for every sample."
+  - id: EXP-02
+    feature_set: [audio]
+    models: [extra_trees, lightgbm]
+    notes: "Acoustic features only."
+  - id: EXP-03
+    feature_set: [text]
+    models: [extra_trees, lightgbm]
+    notes: "ASR-transcript handcrafted (surface + linguistic) features only."
+  - id: EXP-04
+    feature_set: [audio, text]
+    models: [extra_trees, random_forest, hist_gb, lightgbm, xgboost]
+    notes: "Acoustic + handcrafted text features."
+  - id: EXP-05
+    feature_set: [embeddings]
+    models: [ridge, extra_trees, lightgbm]
+    notes: "MiniLM embeddings (PCA inside fold) only."
+  - id: EXP-05b
+    feature_set: [text, embeddings]
+    models: [extra_trees, lightgbm]
+    notes: "Handcrafted text + embeddings (comparison C in the brief)."
+  - id: EXP-06
+    feature_set: [audio, text, embeddings]
+    models: [extra_trees, lightgbm, xgboost]
+    notes: "Full fusion."
+  - id: EXP-07
+    type: ensemble
+    top_k: 3
+    notes: "Mean of the top-k distinct (experiment, model) pairs by CV RMSE. Kept only if it beats the best single model."

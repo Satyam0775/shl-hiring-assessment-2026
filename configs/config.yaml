@@ -1,0 +1,60 @@
+# ---------------------------------------------------------------------------
+# SHL Grammar Scoring - central configuration
+# Data root precedence: --data-root CLI flag > SHL_DATA_ROOT env var > this key
+# ---------------------------------------------------------------------------
+data_root: null            # e.g. "C:/Users/USERNAME/path/Dataset_Final"
+
+train_csv: train.csv
+test_csv: test.csv
+sample_submission_csv: sample_submission.csv
+train_audio_dir: train
+test_audio_dir: test
+
+random_seed: 42
+
+paths:                     # relative to the repository root
+  processed_dir: data/processed
+  models_dir: models
+  experiments_dir: experiments
+  reports_dir: reports
+  submissions_dir: submissions
+
+expected:                  # from the assignment; used only to raise warnings
+  train_rows: 769
+  test_rows: 216
+
+audio:
+  sample_rate: 16000
+  min_duration_sec: 1.0
+  silence_top_db: 30
+  pause_min_sec: 0.3
+
+asr:
+  provider: faster-whisper
+  model: small.en
+  fallback_model: base.en
+  language: en
+  compute_type: auto       # auto -> float16 on CUDA, int8 on CPU
+  beam_size: 5
+  vad_filter: false
+  save_every: 10
+
+features:
+  use_audio: true
+  use_text: true
+  use_embeddings: true
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2
+  embedding_batch_size: 32
+  use_pca: true            # PCA is fitted INSIDE each CV training fold only
+  pca_components: 50
+  n_jobs: 4                # parallel workers for acoustic feature extraction
+
+validation:
+  folds: 5
+  stratify_bins: 5
+
+experiments_file: experiments/configs/experiments.yaml
+
+prediction:
+  min_score: 0
+  max_score: 5
